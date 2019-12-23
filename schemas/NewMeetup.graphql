@@ -1,0 +1,4 @@
+input NewMeetup {
+    name: String!
+    description: String!
+}
