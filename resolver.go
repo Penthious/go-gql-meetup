@@ -37,9 +37,6 @@ type mutationResolver struct { *Resolver }
 func (r *Resolver) Mutation() MutationResolver {
 	return &mutationResolver{r}
 }
-func (g *mutationResolver) CreateMeetup(ctx context.Context, input NewMeetup) (*models.Meetup, error) {
-	panic("implement me")
+func (g *mutationResolver) CreateMeetup(ctx context.Context, input models.NewMeetup) (*models.Meetup, error) {
+	panic("implement me",)
 }
-
-
-

@@ -1,6 +1,7 @@
-type Meetup {
+type Meetup @goModel(model: "github.com/penthious/go-gql-meetup/models.Meetup") {
     id: ID!
     name: String!
     description: String!
-    user: User!
+    user: User! @goField(forceResolver: true)
 }
+

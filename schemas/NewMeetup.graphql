@@ -1,4 +1,6 @@
-input NewMeetup {
+input NewMeetup @goModel(model: "github.com/penthious/go-gql-meetup/models.NewMeetup") {
     name: String!
     description: String!
 }
+
+
