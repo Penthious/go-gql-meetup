@@ -12,7 +12,5 @@ type MeetupRepo interface {
 	GetByIDs(id []string) ([]*Meetup, error)
 	Create(meetup *Meetup) (*Meetup, error)
 	All() ([]*Meetup, error)
-	//GetByID(id int64) (*models.User, error)
-	//GetByEmail(email string) (*models.User, error)
-	//GetByUsername(username string) (*models.User, error)
+	GetByKey(key, value string) (*Meetup, error)
 }

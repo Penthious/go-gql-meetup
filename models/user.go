@@ -10,9 +10,6 @@ type UserRepo interface {
 	GetByIDs(id []string) ([]*User, error)
 	GetByKey(key, value string) (*User, error)
 	All() ([]*User, error)
-	//GetByID(id int64) (*models.User, error)
-	//GetByEmail(email string) (*models.User, error)
-	//GetByUsername(username string) (*models.User, error)
 	//Create(user *models.User) (*models.User, error)
 }
 
