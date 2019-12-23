@@ -3,13 +3,13 @@
 # Refer to https://gqlgen.com/config/
 # for detailed .gqlgen.yml documentation.
 
-schema: "schemas/**/*.graphql"
+schema: "graphql/schemas/**/*.graphql"
 
 exec:
-  filename: generated.go
+  filename: graphql/resolvers/generated.go
 
 resolver:
-  filename: resolver.go
+  filename: graphql/resolvers/resolver.go
   type: Resolver
 
 autobind:
