@@ -34,6 +34,7 @@ func (u *userResolver) Meetups(ctx context.Context, obj *models.User) ([]*models
 }
 
 type mutationResolver struct { *Resolver }
+
 func (r *Resolver) Mutation() MutationResolver {
 	return &mutationResolver{r}
 }
