@@ -35,10 +35,7 @@ func main() {
 		port = defaultPort
 	}
 	c := go_gql_meetup.Config{
-		Resolvers: &go_gql_meetup.Resolver{
-			MeetupsRepo: postgres.MeetupRepo{DB:DB},
-			UsersRepo: postgres.UserRepo{DB: DB},
-		},
+		Resolvers: &go_gql_meetup.Resolver{Domain: *g},
 	}
 
 	queryHandler := handler.GraphQL(go_gql_meetup.NewExecutableSchema(c))

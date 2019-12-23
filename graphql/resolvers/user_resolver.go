@@ -10,5 +10,5 @@ func (r *Resolver) User() UserResolver {
 	return &userResolver{r}
 }
 func (u *userResolver) Meetups(ctx context.Context, obj *models.User) ([]*models.Meetup, error) {
-	return u.MeetupsRepo.GetMeetups()
+	return u.Domain.DB.MeetupRepo.All() // @todo refactor to only get current users
 }

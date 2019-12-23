@@ -10,7 +10,7 @@ import (
 )
 
 func (r *queryResolver) Meetups(ctx context.Context) ([]*models.Meetup, error) {
-	return r.MeetupsRepo.GetMeetups()
+	return r.Domain.DB.MeetupRepo.All()
 }
 
 type meetupResolver  struct{ *Resolver }
@@ -37,5 +37,5 @@ func (m *mutationResolver) CreateMeetup(ctx context.Context, input models.NewMee
 		UserID:      "1", //@todo refactor with jwt
 	}
 
-	return m.MeetupsRepo.CreateMeetup(meetup)
+	return m.Domain.DB.MeetupRepo.Create(meetup)
 }

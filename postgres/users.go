@@ -25,7 +25,7 @@ func (u *UserRepo) GetByID(id string) (*models.User, error)  {
 func (u *UserRepo) GetByIDs(ids []string) ([]*models.User, error)  {
 	var users []*models.User
 
-	err  := u.DB.Model(users).Where("id = (?)", pg.In(ids)).Select()
+	err := u.DB.Model(&users).Where("id in (?)", pg.In(ids)).Select()
 
 	if err != nil {
 		return nil, err

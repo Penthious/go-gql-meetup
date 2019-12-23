@@ -1,14 +1,9 @@
 //go:generate go run github.com/99designs/gqlgen -v
 package resolvers
 
-import (
-	"github.com/penthious/go-gql-meetup/postgres"
-)
+import "github.com/penthious/go-gql-meetup/graphql"
 
-type Resolver struct{
-	MeetupsRepo postgres.MeetupRepo
-	UsersRepo postgres.UserRepo
-}
+type Resolver struct{graphql.Domain}
 
 type queryResolver struct{ *Resolver }
 func (r *Resolver) Query() QueryResolver {

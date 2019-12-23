@@ -9,7 +9,17 @@ type MeetupRepo struct {
 	DB *pg.DB
 }
 
-func (m *MeetupRepo) GetMeetups() ([]*models.Meetup, error)  {
+func (m *MeetupRepo) Create(meetup *models.Meetup) (*models.Meetup, error) {
+	_, err := m.DB.Model(meetup).Returning("*").Insert(meetup)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return meetup, err
+}
+
+func (m *MeetupRepo) All() ([]*models.Meetup, error) {
 	var meetups []*models.Meetup
 
 	err := m.DB.Model(&meetups).Select()
@@ -19,7 +29,6 @@ func (m *MeetupRepo) GetMeetups() ([]*models.Meetup, error)  {
 	}
 
 	return meetups, nil
-	
 }
 
 func (m *MeetupRepo) GetByIDs(ids []string) ([]*models.Meetup, error)  {
@@ -35,15 +44,6 @@ func (m *MeetupRepo) GetByIDs(ids []string) ([]*models.Meetup, error)  {
 
 }
 
-func (m *MeetupRepo) CreateMeetup(meetup *models.Meetup) (*models.Meetup, error) {
-	_, err := m.DB.Model(meetup).Returning("*").Insert(meetup)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return meetup, err
-}
 func NewMeetupRepo(DB *pg.DB) *MeetupRepo {
 	return &MeetupRepo{DB: DB}
 }
