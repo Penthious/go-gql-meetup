@@ -7,7 +7,7 @@
 //	"github.com/go-pg/pg/v9"
 //	"github.com/penthious/go-gql-meetup/graphql"
 //	"github.com/penthious/go-gql-meetup/graphql/dataloaders"
-//	"github.com/penthious/go-gql-meetup/postgres"
+//	"github.com/penthious/go-gql-meetup/database"
 //	"log"
 //	"net/http"
 //	"os"
@@ -18,17 +18,17 @@
 //const defaultPort = "8080"
 //
 //func main() {
-//	DB := postgres.New(&pg.Options{
+//	DB := database.New(&pg.Options{
 //		User: "tleffew",
-//		Password:"postgres",
+//		Password:"database",
 //		Database:"meetup_dev",
 //	})
 //
 //	defer DB.Close()
-//	DB.AddQueryHook(postgres.DBLogger{})
+//	DB.AddQueryHook(database.DBLogger{})
 //	graphqlDB := graphql.DB{
-//		UserRepo: postgres.NewUserRepo(DB),
-//		MeetupRepo: postgres.NewMeetupRepo(DB),
+//		UserRepo: database.NewUserRepo(DB),
+//		MeetupRepo: database.NewMeetupRepo(DB),
 //	}
 //	g := &graphql.Domain{DB: graphqlDB}
 //
@@ -61,7 +61,7 @@ import (
 	"github.com/penthious/go-gql-meetup/domain"
 	"github.com/penthious/go-gql-meetup/domain/utils"
 	"github.com/penthious/go-gql-meetup/graphql/dataloaders"
-	"github.com/penthious/go-gql-meetup/postgres"
+	"github.com/penthious/go-gql-meetup/database"
 	"net/http"
 
 	"github.com/99designs/gqlgen/graphql/handler"
@@ -70,17 +70,17 @@ import (
 )
 
 func main() {
-	DB := postgres.New(&pg.Options{
+	DB := database.New(&pg.Options{
 		User: "tleffew",
-		Password:"postgres",
+		Password:"database",
 		Database:"meetup_dev",
 	})
 
 	defer DB.Close()
-	DB.AddQueryHook(postgres.DBLogger{})
+	DB.AddQueryHook(database.DBLogger{})
 	graphqlDB := domain.DB{
-		UserRepo: postgres.NewUserRepo(DB),
-		MeetupRepo: postgres.NewMeetupRepo(DB),
+		UserRepo:   database.NewUserRepo(DB),
+		MeetupRepo: database.NewMeetupRepo(DB),
 	}
 	g := &domain.Domain{DB: graphqlDB}
 	router := utils.SetupRouter(g)
