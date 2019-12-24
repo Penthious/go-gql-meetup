@@ -1,0 +1,5 @@
+input UpdateMeetup @goModel(model: "github.com/penthious/go-gql-meetup/models.UpdateMeetup") {
+    name: String
+    description: String
+}
+

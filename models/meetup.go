@@ -13,4 +13,7 @@ type MeetupRepo interface {
 	Create(meetup *Meetup) (*Meetup, error)
 	All() ([]*Meetup, error)
 	GetByKey(key, value string) (*Meetup, error)
+	Update(meetup *Meetup) (*Meetup, error)
+	Delete(meetup *Meetup) error
+	GetMeetupsForUser(id string) ([]*Meetup, error)
 }
