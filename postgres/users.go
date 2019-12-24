@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/go-pg/pg/v9"
+	"github.com/penthious/go-gql-meetup/domain/utils"
 	"github.com/penthious/go-gql-meetup/models"
-	"github.com/penthious/go-gql-meetup/utils"
 )
 
 type UserRepo struct {

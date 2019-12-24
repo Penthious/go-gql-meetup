@@ -1,4 +1,4 @@
-package graphql
+package domain
 
 import "github.com/penthious/go-gql-meetup/models"
 

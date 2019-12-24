@@ -2,13 +2,13 @@ package dataloaders
 
 import (
 	"context"
-	"github.com/penthious/go-gql-meetup/graphql"
+	"github.com/penthious/go-gql-meetup/domain"
 	"net/http"
 )
 
 const USER_LOADER_KEY = "userLoader"
 
-func DataloaderMiddleware(d *graphql.Domain, next http.Handler) http.Handler  {
+func DataloaderMiddleware(d *domain.Domain, next http.Handler) http.Handler  {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		userLoader := CreateUserLoader(d)
 

@@ -58,14 +58,14 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/go-pg/pg/v9"
 	"github.com/gorilla/websocket"
-	"github.com/penthious/go-gql-meetup/graphql"
+	"github.com/penthious/go-gql-meetup/domain"
+	"github.com/penthious/go-gql-meetup/domain/utils"
 	"github.com/penthious/go-gql-meetup/graphql/dataloaders"
 	"github.com/penthious/go-gql-meetup/postgres"
-	"github.com/penthious/go-gql-meetup/utils"
 	"net/http"
 
-	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
 	go_gql_meetup "github.com/penthious/go-gql-meetup/graphql/resolvers"
 )
 
@@ -78,11 +78,11 @@ func main() {
 
 	defer DB.Close()
 	DB.AddQueryHook(postgres.DBLogger{})
-	graphqlDB := graphql.DB{
+	graphqlDB := domain.DB{
 		UserRepo: postgres.NewUserRepo(DB),
 		MeetupRepo: postgres.NewMeetupRepo(DB),
 	}
-	g := &graphql.Domain{DB: graphqlDB}
+	g := &domain.Domain{DB: graphqlDB}
 	router := utils.SetupRouter(g)
 
 	// Add CORS middleware around every request

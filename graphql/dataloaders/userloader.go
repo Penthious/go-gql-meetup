@@ -1,12 +1,12 @@
 package dataloaders
 
 import (
-	"github.com/penthious/go-gql-meetup/graphql"
+	"github.com/penthious/go-gql-meetup/domain"
 	"github.com/penthious/go-gql-meetup/models"
 	"time"
 )
 
-func CreateUserLoader(d *graphql.Domain) UserLoader {
+func CreateUserLoader(d *domain.Domain) UserLoader {
 	return UserLoader{
 		maxBatch: 100,
 		wait:     1 * time.Millisecond,

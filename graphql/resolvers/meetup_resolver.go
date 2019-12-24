@@ -2,8 +2,8 @@ package resolvers
 
 import (
 	"context"
+	"github.com/penthious/go-gql-meetup/domain/utils"
 	"github.com/penthious/go-gql-meetup/graphql/dataloaders"
-	"github.com/penthious/go-gql-meetup/utils"
 
 	//"github.com/penthious/go-gql-meetup/graphql/dataloaders"
 	"github.com/penthious/go-gql-meetup/models"

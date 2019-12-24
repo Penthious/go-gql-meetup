@@ -2,10 +2,10 @@
 package resolvers
 
 import (
-	"github.com/penthious/go-gql-meetup/graphql"
+	"github.com/penthious/go-gql-meetup/domain"
 )
 
-type Resolver struct{graphql.Domain}
+type Resolver struct{domain.Domain}
 
 type queryResolver struct{ *Resolver }
 
