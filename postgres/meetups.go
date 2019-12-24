@@ -24,7 +24,7 @@ func (m *MeetupRepo) Delete(meetup *models.Meetup) error {
 }
 
 func (m *MeetupRepo) Update(meetup *models.Meetup) (*models.Meetup, error) {
-	_, err := m.DB.Model(&meetup).Where("id = ?", meetup.ID).Update()
+	_, err := m.DB.Model(meetup).Where("id = ?", meetup.ID).Update()
 
 	if err != nil {
 		return nil, err
@@ -34,7 +34,7 @@ func (m *MeetupRepo) Update(meetup *models.Meetup) (*models.Meetup, error) {
 }
 
 func (m *MeetupRepo) Create(meetup *models.Meetup) (*models.Meetup, error) {
-	_, err := m.DB.Model(&meetup).Returning("*").Insert(meetup)
+	_, err := m.DB.Model(meetup).Returning("*").Insert(meetup)
 
 	if err != nil {
 		return nil, err
@@ -73,7 +73,7 @@ func (m *MeetupRepo) GetByKey(key, value string) (*models.Meetup, error) {
 
 	condition := fmt.Sprintf("%v = %v", key, value)
 
-	err := m.DB.Model(&meetup).Where(condition).First()
+	err := m.DB.Model(meetup).Where(condition).First()
 
 	if err != nil {
 		if errors.Is(err, pg.ErrNoRows) {
