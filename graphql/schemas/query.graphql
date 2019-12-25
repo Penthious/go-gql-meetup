@@ -1,5 +1,0 @@
-type Query {
-    meetups: [Meetup!]!
-    users: [User!]!
-    user(id: ID!): User!
-}

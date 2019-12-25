@@ -5,3 +5,12 @@ type Meetup @goModel(model: "github.com/penthious/go-gql-meetup/models.Meetup") 
     user: User! @goField(forceResolver: true)
 }
 
+extend type Query {
+    meetups: [Meetup!]!
+}
+
+type Mutation {
+    createMeetup(input: NewMeetup!): Meetup!
+    updateMeetup(id: ID!, input: UpdateMeetup!): Meetup!
+    deleteMeetup(id: ID!): Boolean!
+}

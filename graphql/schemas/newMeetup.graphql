@@ -1,7 +1,4 @@
-
 input NewMeetup @goModel(model: "github.com/penthious/go-gql-meetup/models.NewMeetup") {
     name: String! @length(min: 3)
     description: String! @length(min: 3)
 }
-
-

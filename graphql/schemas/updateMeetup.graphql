@@ -2,4 +2,3 @@ input UpdateMeetup @goModel(model: "github.com/penthious/go-gql-meetup/models.Up
     name: String @length(min: 3)
     description: String @length(min: 3)
 }
-

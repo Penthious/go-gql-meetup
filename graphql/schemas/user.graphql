@@ -5,3 +5,8 @@ type User @goModel(model: "github.com/penthious/go-gql-meetup/models.User") {
 
     meetups: [Meetup!]! @goField(forceResolver: true)
 }
+
+type Query {
+    users: [User!]!
+    user(id: ID!): User!
+}
