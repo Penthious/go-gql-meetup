@@ -2,6 +2,7 @@ package resolvers
 
 import (
 	"context"
+	"fmt"
 	"github.com/penthious/go-gql-meetup/domain/utils"
 	"github.com/penthious/go-gql-meetup/graphql/dataloaders"
 
@@ -19,19 +20,9 @@ func (r *Resolver) Meetup() MeetupResolver {
 	return &meetupResolver{r}
 }
 func (m *meetupResolver) User(ctx context.Context, obj *models.Meetup) (*models.User, error) {
-	//return m.UsersRepo.GetByID(obj.UserID)
 	return dataloaders.GetUserLoader(ctx).Load(obj.UserID)
 }
-//
-//func  CreateMeetupIsValid(meetup models.NewMeetup) (bool, map[string]string) {
-//	v := utils.NewValidator()
-//
-//	if meetup.Name != "" {
-//		v.MustBeLongerThan("name", meetup.Name, 3)
-//	}
-//
-//	return v.IsValid(), v.Errors
-//}
+
 func (m *mutationResolver) CreateMeetup(ctx context.Context, input models.NewMeetup) (*models.Meetup, error) {
 
 	// @todo add validators in
@@ -56,13 +47,19 @@ func (m *mutationResolver) UpdateMeetup(ctx context.Context, id string, input mo
 		return nil, utils.ErrNoResult
 	}
 
-	if *input.Name != ""{
-		meetup.Name = *input.Name
-		didUpdate = true
+	fmt.Println("WE GOT HERE")
+	if input.Name != nil {
+		if *input.Name != meetup.Name {
+			meetup.Name = *input.Name
+			didUpdate = true
+		}
 	}
-	if *input.Description != ""{
-		meetup.Description = *input.Description
-		didUpdate = true
+	fmt.Println("WE geot HERE")
+	if input.Description != nil {
+		if *input.Description != meetup.Description {
+			meetup.Description = *input.Description
+			didUpdate = true
+		}
 	}
 
 	if didUpdate {
