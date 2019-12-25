@@ -23,6 +23,7 @@ func main() {
 	})
 
 	defer DB.Close()
+
 	DB.AddQueryHook(database.DBLogger{})
 	graphqlDB := domain.DB{
 		UserRepo:   database.NewUserRepo(DB),
@@ -53,7 +54,7 @@ func main() {
 		},
 	})
 
-	router.Handle("/", playground.Handler("Starwars", "/query"))
+	router.Handle("/", playground.Handler("Meetups gql", "/query"))
 	//router.Handle("/query", srv)
 	router.Handle("/query", dataloaders.DataloaderMiddleware(g, srv))
 
