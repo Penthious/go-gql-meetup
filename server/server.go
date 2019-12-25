@@ -1,22 +1,18 @@
 package main
 
 import (
-	"context"
-	"github.com/99designs/gqlgen/graphql"
+	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
+	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/go-pg/pg/v9"
 	"github.com/gorilla/websocket"
+	go_gql_meetup2 "github.com/penthious/go-gql-meetup"
 	"github.com/penthious/go-gql-meetup/database"
 	"github.com/penthious/go-gql-meetup/domain"
 	"github.com/penthious/go-gql-meetup/domain/utils"
 	"github.com/penthious/go-gql-meetup/graphql/dataloaders"
-	"github.com/vektah/gqlparser/gqlerror"
-	"net/http"
-	"reflect"
-
-	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/99designs/gqlgen/graphql/playground"
 	go_gql_meetup "github.com/penthious/go-gql-meetup/graphql/resolvers"
+	"net/http"
 )
 
 func main() {
@@ -42,29 +38,9 @@ func main() {
 	c := go_gql_meetup.Config{
 		Resolvers: &go_gql_meetup.Resolver{Domain: *g},
 	}
-	c.Directives.Length = func(ctx context.Context, obj interface{}, next graphql.Resolver, min *int, max *int) (interface{}, error) {
 
+	go_gql_meetup2.SetDirectives(&c)
 
-		// @todo: https://github.com/99designs/gqlgen/issues/887 figure out how to get path set correctly in error
-		v, _ := next(ctx)
-		if reflect.TypeOf(v).String() == "string" {
-			// Creates
-			if len(v.(string)) < *min {
-				return nil, gqlerror.Errorf("format")
-			}
-
-		} else if reflect.TypeOf(v).String() == "*string" {
-			// Updates
-			if len(*v.(*string)) < *min {
-				return nil, gqlerror.Errorf("format")
-			}
-		}
-
-		return v, nil
-	}
-
-
-	//utils.SetDirectives(c)
 	srv := handler.NewDefaultServer(go_gql_meetup.NewExecutableSchema(c))
 	srv.AddTransport(&transport.Websocket{
 		Upgrader: websocket.Upgrader{
