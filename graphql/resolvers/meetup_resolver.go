@@ -10,9 +10,10 @@ import (
 	"github.com/penthious/go-gql-meetup/models"
 )
 
-func (r *queryResolver) Meetups(ctx context.Context) ([]*models.Meetup, error) {
-	return r.Domain.DB.MeetupRepo.All()
+func (q *queryResolver) Meetups(ctx context.Context, filter *models.MeetupFilter) ([]*models.Meetup, error) {
+	return q.Domain.DB.MeetupRepo.GetMeetupsByFilter(filter)
 }
+
 
 type meetupResolver  struct{ *Resolver }
 
@@ -85,4 +86,8 @@ func (m *mutationResolver) DeleteMeetup(ctx context.Context, id string) (bool, e
 	}
 
 	return true, nil
+}
+
+func (m *mutationResolver) FilterMeetups(ctx context.Context, filter *models.MeetupFilter) {
+
 }

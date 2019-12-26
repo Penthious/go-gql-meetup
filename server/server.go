@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -16,6 +17,7 @@ import (
 )
 
 func main() {
+	fmt.Println("TEST")
 	DB := database.New(&pg.Options{
 		User: "tleffew",
 		Password:"database",

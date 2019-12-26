@@ -5,8 +5,23 @@ type Meetup @goModel(model: "github.com/penthious/go-gql-meetup/models.Meetup") 
     user: User! @goField(forceResolver: true)
 }
 
+input NewMeetup @goModel(model: "github.com/penthious/go-gql-meetup/models.NewMeetup") {
+    name: String! @length(min: 3)
+    description: String! @length(min: 3)
+}
+
+input UpdateMeetup @goModel(model: "github.com/penthious/go-gql-meetup/models.UpdateMeetup") {
+    name: String @length(min: 3)
+    description: String @length(min: 3)
+}
+
+input MeetupFilter @goModel(model: "github.com/penthious/go-gql-meetup/models.MeetupFilter") {
+    name: String
+    description: String
+}
+
 extend type Query {
-    meetups: [Meetup!]!
+    meetups(filter: MeetupFilter): [Meetup!]!
 }
 
 type Mutation {

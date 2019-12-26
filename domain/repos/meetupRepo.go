@@ -10,4 +10,5 @@ type MeetupRepo interface {
 	Update(meetup *models.Meetup) (*models.Meetup, error)
 	Delete(meetup *models.Meetup) error
 	GetMeetupsForUser(id string) ([]*models.Meetup, error)
+	GetMeetupsByFilter(filter *models.MeetupFilter) ([]*models.Meetup, error)
 }

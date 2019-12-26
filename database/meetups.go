@@ -12,6 +12,28 @@ type MeetupRepo struct {
 	DB *pg.DB
 }
 
+func (m *MeetupRepo) GetMeetupsByFilter(filter *models.MeetupFilter) ([]*models.Meetup, error) {
+	var meetups []*models.Meetup
+
+	query := m.DB.Model(&meetups).Order("id")
+
+	if filter != nil {
+		if filter.Name != nil {
+			query.Where("name ILIKE ?", fmt.Sprintf("%%%s%%", *filter.Name))
+		}
+		if filter.Description != nil {
+			query.Where("description ILIKE ?", fmt.Sprintf("%%%s%%", *filter.Description))
+		}
+	}
+
+	err := query.Select()
+	if err != nil {
+		return nil, err
+	}
+
+	return meetups, nil
+}
+
 func (m *MeetupRepo) GetMeetupsForUser(id string) ([]*models.Meetup, error) {
 	var meetups []*models.Meetup
 	err :=  m.DB.Model(&meetups).Where("user_id = ?", id).Order("id").Select()
