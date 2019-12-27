@@ -8,7 +8,7 @@ require (
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/go-chi/chi v4.0.2+incompatible
 	github.com/go-pg/pg/v9 v9.1.0
-	github.com/gorilla/websocket v1.4.1 // indirect
+	github.com/gorilla/websocket v1.4.1
 	github.com/hashicorp/golang-lru v0.5.3 // indirect
 	github.com/mitchellh/mapstructure v1.1.2 // indirect
 	github.com/rs/cors v1.7.0

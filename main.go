@@ -1,23 +1,21 @@
 package main
 
 import (
-	"fmt"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/go-pg/pg/v9"
 	"github.com/gorilla/websocket"
-	"github.com/penthious/go-gql-meetup"
 	"github.com/penthious/go-gql-meetup/database"
 	"github.com/penthious/go-gql-meetup/domain"
-	"github.com/penthious/go-gql-meetup/domain/utils"
 	"github.com/penthious/go-gql-meetup/graphql/dataloaders"
-	go_gql_meetup_resolvers "github.com/penthious/go-gql-meetup/graphql/resolvers"
+	"github.com/penthious/go-gql-meetup/graphql/resolvers"
+	"github.com/penthious/go-gql-meetup/server"
+	"github.com/penthious/go-gql-meetup/server/directives"
 	"net/http"
 )
 
 func main() {
-	fmt.Println("TEST")
 	DB := database.New(&pg.Options{
 		User: "tleffew",
 		Password:"database",
@@ -32,19 +30,19 @@ func main() {
 		MeetupRepo: database.NewMeetupRepo(DB),
 	}
 	g := &domain.Domain{DB: graphqlDB}
-	router := utils.SetupRouter(g)
+	router := server.SetupRouter(g)
 
 	// Add CORS middleware around every request
 	// See https://github.com/rs/cors for full option listing
 
 
-	c := go_gql_meetup_resolvers.Config{
-		Resolvers: &go_gql_meetup_resolvers.Resolver{Domain: *g},
+	c := resolvers.Config{
+		Resolvers: &resolvers.Resolver{Domain: *g},
 	}
 
-	go_gql_meetup.SetDirectives(&c)
+	directives.SetDirectives(&c)
 
-	srv := handler.NewDefaultServer(go_gql_meetup_resolvers.NewExecutableSchema(c))
+	srv := handler.NewDefaultServer(resolvers.NewExecutableSchema(c))
 	srv.AddTransport(&transport.Websocket{
 		Upgrader: websocket.Upgrader{
 			CheckOrigin: func(r *http.Request) bool {
@@ -60,7 +58,7 @@ func main() {
 	//router.Handle("/query", srv)
 	router.Handle("/query", dataloaders.DataloaderMiddleware(g, srv))
 
-	err := http.ListenAndServe(":8080", router)
+	err := http.ListenAndServe(":8081", router)
 	if err != nil {
 		panic(err)
 	}

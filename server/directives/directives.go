@@ -1,4 +1,4 @@
-package go_gql_meetup
+package directives
 //
 import (
 	"context"

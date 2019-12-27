@@ -1,9 +1,9 @@
-package utils
+package server
 
 import (
 	"github.com/go-chi/chi"
 	"github.com/penthious/go-gql-meetup/domain"
-	"github.com/penthious/go-gql-meetup/domain/middleware"
+	"github.com/penthious/go-gql-meetup/server/middleware"
 	"github.com/rs/cors"
 )
 
