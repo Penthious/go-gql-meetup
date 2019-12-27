@@ -10,7 +10,7 @@ import (
 
 func SetupRouter(d *domain.Domain) *chi.Mux {
 	r := chi.NewRouter()
-	middleware.SetupMiddleware(r)
+	middleware.SetupMiddleware(r, d)
 	r.Use(cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:8080"},
 		AllowCredentials: true,

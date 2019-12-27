@@ -1,6 +1,6 @@
 package models
 
-type UpdateMeetup struct {
+type UpdateMeetupPayload struct {
 	Name        *string `json:"name"`
 	Description *string `json:"description"`
 }

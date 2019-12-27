@@ -2,30 +2,34 @@ type Meetup @goModel(model: "github.com/penthious/go-gql-meetup/models.Meetup") 
     id: ID!
     name: String!
     description: String!
+#    createdAt: Time!
+#    updatedAt: Time!
+#    deleatedAt: Time!
+
     user: User! @goField(forceResolver: true)
 }
 
-input NewMeetup @goModel(model: "github.com/penthious/go-gql-meetup/models.NewMeetup") {
+input NewMeetupPayload @goModel(model: "github.com/penthious/go-gql-meetup/models.NewMeetupPayload") {
     name: String! @length(min: 3)
     description: String! @length(min: 3)
 }
 
-input UpdateMeetup @goModel(model: "github.com/penthious/go-gql-meetup/models.UpdateMeetup") {
+input UpdateMeetupPayload @goModel(model: "github.com/penthious/go-gql-meetup/models.UpdateMeetupPayload") {
     name: String @length(min: 3)
     description: String @length(min: 3)
 }
 
-input MeetupFilter @goModel(model: "github.com/penthious/go-gql-meetup/models.MeetupFilter") {
+input MeetupFilterPayload @goModel(model: "github.com/penthious/go-gql-meetup/models.MeetupFilterPayload") {
     name: String
     description: String
 }
 
 extend type Query {
-    meetups(filter: MeetupFilter): [Meetup!]!
+    meetups(filter: MeetupFilterPayload): [Meetup!]!
 }
 
-type Mutation {
-    createMeetup(input: NewMeetup!): Meetup!
-    updateMeetup(id: ID!, input: UpdateMeetup!): Meetup!
+extend type Mutation {
+    createMeetup(input: NewMeetupPayload!): Meetup!
+    updateMeetup(id: ID!, input: UpdateMeetupPayload!): Meetup!
     deleteMeetup(id: ID!): Boolean!
 }

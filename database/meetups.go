@@ -12,7 +12,7 @@ type MeetupRepo struct {
 	DB *pg.DB
 }
 
-func (m *MeetupRepo) GetMeetupsByFilter(filter *models.MeetupFilter) ([]*models.Meetup, error) {
+func (m *MeetupRepo) GetMeetupsByFilter(filter *models.MeetupFilterPayload) ([]*models.Meetup, error) {
 	var meetups []*models.Meetup
 
 	query := m.DB.Model(&meetups).Order("id")

@@ -62,6 +62,16 @@ func (u *UserRepo) Create(user *models.User) (*models.User, error) {
 	return user, nil
 }
 
+func (u *UserRepo) Update(user *models.User) (*models.User, error) {
+	_, err := u.DB.Model(user).Where("id = ?", user.ID).Update()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
 func NewUserRepo(DB *pg.DB) *UserRepo {
 	return &UserRepo{DB: DB}
 }

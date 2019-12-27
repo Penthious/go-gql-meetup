@@ -2,7 +2,11 @@ package resolvers
 
 import (
 	"context"
+	"fmt"
+	"github.com/penthious/go-gql-meetup/domain/sevices"
+	"github.com/penthious/go-gql-meetup/domain/utils"
 	"github.com/penthious/go-gql-meetup/models"
+	"github.com/penthious/go-gql-meetup/server/middleware"
 )
 
 type userResolver  struct{ *Resolver }
@@ -20,3 +24,38 @@ func (u *userResolver) Meetups(ctx context.Context, obj *models.User) ([]*models
 	return u.Domain.DB.MeetupRepo.GetMeetupsForUser(obj.ID)// @todo refactor to only get current users
 }
 
+func (m *mutationResolver) Register(ctx context.Context, input models.RegisterPayload) (*models.User, error) {
+	fmt.Println("WE MADE IT TO HERE")
+	userExist, _ := m.DB.UserRepo.GetByKey("email", input.Email)
+
+	if userExist != nil {
+		return nil, utils.ErrUserWithEmailAlreadyExist
+	}
+
+	password, err := sevices.SetPassword(input.Password)
+
+	if err != nil {
+		return nil, err
+	}
+
+	data := &models.User{
+		Username: input.Username,
+		Email:    input.Email,
+		Password: *password,
+	}
+
+	user, err := m.DB.UserRepo.Create(data)
+
+	if err != nil {
+		return nil, err
+	}
+
+	authPointer := ctx.Value(middleware.ContextKey("userID")).(*string)
+	*authPointer = user.ID
+
+	return user, nil
+}
+
+func (m *mutationResolver) Login(ctx context.Context, input models.LoginPayload) (*models.User, error) {
+	panic("implement me")
+}
