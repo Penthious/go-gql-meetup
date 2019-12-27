@@ -38,8 +38,7 @@ func (u *UserRepo) GetByIDs(ids []string) ([]*models.User, error)  {
 
 func (u *UserRepo) GetByKey(key, value string) (*models.User, error) {
 	user := new(models.User)
-	condition := fmt.Sprintf("%v = %v", key, value)
-
+	condition := fmt.Sprintf("%v = '%v'", key, value)
 	err := u.DB.Model(user).Where(condition).First()
 
 	if err != nil {

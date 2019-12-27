@@ -48,3 +48,7 @@ func GenToken(userID string, d domain.Domain) (*JWTToken, error) {
 
 	return &JWTToken{AccessToken: accessToken, ExpiresAt: expiresAt}, nil
 }
+func CheckPassword(password string, u *models.User) error {
+	passwordByte, passwordHashedByte := []byte(password), []byte(u.Password)
+	return bcrypt.CompareHashAndPassword(passwordHashedByte, passwordByte)
+}

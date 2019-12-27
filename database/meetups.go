@@ -93,7 +93,7 @@ func (m *MeetupRepo) GetByIDs(ids []string) ([]*models.Meetup, error)  {
 func (m *MeetupRepo) GetByKey(key, value string) (*models.Meetup, error) {
 	meetup := new(models.Meetup)
 
-	condition := fmt.Sprintf("%v = %v", key, value)
+	condition := fmt.Sprintf("%v = '%v'", key, value)
 
 	err := m.DB.Model(meetup).Where(condition).First()
 
