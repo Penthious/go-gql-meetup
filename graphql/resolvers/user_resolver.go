@@ -2,7 +2,6 @@ package resolvers
 
 import (
 	"context"
-	"fmt"
 	"github.com/penthious/go-gql-meetup/domain/sevices"
 	"github.com/penthious/go-gql-meetup/domain/utils"
 	"github.com/penthious/go-gql-meetup/models"
@@ -25,7 +24,6 @@ func (u *userResolver) Meetups(ctx context.Context, obj *models.User) ([]*models
 }
 
 func (m *mutationResolver) Register(ctx context.Context, input models.RegisterPayload) (*models.User, error) {
-	fmt.Println("WE MADE IT TO HERE")
 	userExist, _ := m.DB.UserRepo.GetByKey("email", input.Email)
 
 	if userExist != nil {

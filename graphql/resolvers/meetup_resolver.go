@@ -2,6 +2,7 @@ package resolvers
 
 import (
 	"context"
+	"github.com/99designs/gqlgen/graphql"
 	"github.com/penthious/go-gql-meetup/domain/utils"
 	"github.com/penthious/go-gql-meetup/graphql/dataloaders"
 	"github.com/penthious/go-gql-meetup/server/middleware"
@@ -39,9 +40,13 @@ func (m *mutationResolver) CreateMeetup(ctx context.Context, input models.NewMee
 
 func (m *mutationResolver) UpdateMeetup(ctx context.Context, id string, input models.UpdateMeetupPayload) (*models.Meetup, error) {
 	didUpdate := false
+	user := middleware.ForContext(ctx)
 	meetup, err := m.DB.MeetupRepo.GetByKey("id", id)
 	if err != nil || meetup == nil {
 		return nil, utils.ErrNoResult
+	}
+	if meetup.UserID != user.ID {
+		return nil, graphql.ErrorResponse(ctx, "Not authorized").Errors
 	}
 
 	if input.Name != nil {
