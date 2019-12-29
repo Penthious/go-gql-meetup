@@ -36,7 +36,7 @@ func (m *mutationResolver) Register(ctx context.Context, input models.RegisterPa
 		return nil, err
 	}
 
-	data := &models.User{
+	user := &models.User{
 		Username: input.Username,
 		Email:    input.Email,
 		Password: *password,
@@ -44,7 +44,7 @@ func (m *mutationResolver) Register(ctx context.Context, input models.RegisterPa
 
 	tx, _ := m.DB.DB.Begin()
 	defer tx.Commit()
-	user, err := m.DB.UserRepo.Create(data)
+	err = m.DB.UserRepo.Create(user)
 
 
 	authPointer := ctx.Value(middleware.ContextKey("userID")).(*string)

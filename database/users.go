@@ -51,14 +51,14 @@ func (u *UserRepo) GetByKey(key, value string) (*models.User, error) {
 	return user, nil
 }
 
-func (u *UserRepo) Create(user *models.User) (*models.User, error) {
+func (u *UserRepo) Create(user *models.User) error {
 	_, err := u.DB.Model(user).Returning("*").Insert()
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return user, nil
+	return nil
 }
 
 func (u *UserRepo) Update(user *models.User) (*models.User, error) {
