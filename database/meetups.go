@@ -80,7 +80,7 @@ func (m *MeetupRepo) All() ([]*models.Meetup, error) {
 func (m *MeetupRepo) GetByIDs(ids []string) ([]*models.Meetup, error)  {
 	var meetups []*models.Meetup
 
-	err  := m.DB.Model(&meetups).Where("id = (?)", pg.In(ids)).Select()
+	err  := m.DB.Model(&meetups).Where("id in (?)", pg.In(ids)).Select()
 
 	if err != nil {
 		return nil, err

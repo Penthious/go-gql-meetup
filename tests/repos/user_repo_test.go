@@ -5,7 +5,6 @@ import (
 
 	"fmt"
 	"github.com/go-pg/pg/v9"
-	"github.com/khaiql/dbcleaner"
 	"github.com/khaiql/dbcleaner/engine"
 	"github.com/penthious/go-gql-meetup/database"
 	"github.com/penthious/go-gql-meetup/domain"
@@ -16,7 +15,6 @@ import (
 	"testing"
 
 )
-var Cleaner = dbcleaner.New()
 
 type UserRepoSuite struct {
 	suite.Suite
