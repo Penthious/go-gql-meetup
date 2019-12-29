@@ -42,14 +42,18 @@ func (m *mutationResolver) Register(ctx context.Context, input models.RegisterPa
 		Password: *password,
 	}
 
+	tx, _ := m.DB.DB.Begin()
+	defer tx.Commit()
 	user, err := m.DB.UserRepo.Create(data)
 
-	if err != nil {
-		return nil, err
-	}
 
 	authPointer := ctx.Value(middleware.ContextKey("userID")).(*string)
 	*authPointer = user.ID
+
+	if err != nil {
+		tx.Rollback()
+		return nil, err
+	}
 
 	return user, nil
 }

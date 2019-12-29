@@ -28,6 +28,7 @@ func main() {
 	graphqlDB := domain.DB{
 		UserRepo:   database.NewUserRepo(DB),
 		MeetupRepo: database.NewMeetupRepo(DB),
+		DB: DB,
 	}
 	g := &domain.Domain{DB: graphqlDB}
 	router := server.SetupRouter(g)

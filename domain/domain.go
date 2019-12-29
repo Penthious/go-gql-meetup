@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"github.com/go-pg/pg/v9"
 	"github.com/penthious/go-gql-meetup/domain/repos"
 )
 
@@ -11,6 +12,7 @@ import (
 type DB struct {
 	UserRepo repos.UserRepo
 	MeetupRepo repos.MeetupRepo
+	DB *pg.DB
 }
 
 

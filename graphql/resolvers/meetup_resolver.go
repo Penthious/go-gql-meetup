@@ -28,13 +28,23 @@ func (m *meetupResolver) User(ctx context.Context, obj *models.Meetup) (*models.
 func (m *mutationResolver) CreateMeetup(ctx context.Context, input models.NewMeetupPayload) (*models.Meetup, error) {
 	user := middleware.ForContext(ctx)
 
+	tx, _ := m.DB.DB.Begin()
+	defer tx.Commit()
+
 	meetup := &models.Meetup{
 		Name:        input.Name,
 		Description: input.Description,
 		UserID:      user.ID,
 	}
 
-	return m.Domain.DB.MeetupRepo.Create(meetup)
+	meetup, err := m.Domain.DB.MeetupRepo.Create(meetup)
+
+	if err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+
+	return meetup, nil
 
 }
 
@@ -61,6 +71,8 @@ func (m *mutationResolver) UpdateMeetup(ctx context.Context, id string, input mo
 			didUpdate = true
 		}
 	}
+	tx, err := m.DB.DB.Begin()
+	defer tx.Commit()
 
 	if didUpdate {
 		meetup, err = m.DB.MeetupRepo.Update(meetup)
@@ -69,6 +81,7 @@ func (m *mutationResolver) UpdateMeetup(ctx context.Context, id string, input mo
 	}
 
 	if err != nil {
+		tx.Rollback()
 		return nil, utils.ErrUpdateError{Err: err}
 	}
 
@@ -77,10 +90,13 @@ func (m *mutationResolver) UpdateMeetup(ctx context.Context, id string, input mo
 
 func (m *mutationResolver) DeleteMeetup(ctx context.Context, id string) (bool, error) {
 
+	tx, _ := m.DB.DB.Begin()
+	defer tx.Commit()
 	meetup, err := m.DB.MeetupRepo.GetByKey("id", id)
 	err = m.DB.MeetupRepo.Delete(meetup)
 
 	if err != nil {
+		tx.Rollback()
 		return false, utils.ErrNoResult
 	}
 
