@@ -27,11 +27,8 @@ func (m *MeetupRepo) GetMeetupsByFilter(filter *models.MeetupFilterPayload) ([]*
 	}
 
 	err := query.Select()
-	if err != nil {
-		return nil, err
-	}
 
-	return meetups, nil
+	return meetups, err
 }
 
 func (m *MeetupRepo) GetMeetupsForUser(id string) ([]*models.Meetup, error) {
@@ -48,19 +45,11 @@ func (m *MeetupRepo) Delete(meetup *models.Meetup) error {
 func (m *MeetupRepo) Update(meetup *models.Meetup) (*models.Meetup, error) {
 	_, err := m.DB.Model(meetup).Where("id = ?", meetup.ID).Update()
 
-	if err != nil {
-		return nil, err
-	}
-
-	return meetup, nil
+	return meetup, err
 }
 
 func (m *MeetupRepo) Create(meetup *models.Meetup) (*models.Meetup, error) {
 	_, err := m.DB.Model(meetup).Returning("*").Insert(meetup)
-
-	if err != nil {
-		return nil, err
-	}
 
 	return meetup, err
 }
@@ -70,11 +59,7 @@ func (m *MeetupRepo) All() ([]*models.Meetup, error) {
 
 	err := m.DB.Model(&meetups).Order("id").Select()
 
-	if err != nil {
-		return nil, err
-	}
-
-	return meetups, nil
+	return meetups, err
 }
 
 func (m *MeetupRepo) GetByIDs(ids []string) ([]*models.Meetup, error)  {
@@ -82,11 +67,7 @@ func (m *MeetupRepo) GetByIDs(ids []string) ([]*models.Meetup, error)  {
 
 	err  := m.DB.Model(&meetups).Where("id in (?)", pg.In(ids)).Select()
 
-	if err != nil {
-		return nil, err
-	}
-
-	return meetups, nil
+	return meetups, err
 
 }
 
@@ -101,10 +82,9 @@ func (m *MeetupRepo) GetByKey(key, value string) (*models.Meetup, error) {
 		if errors.Is(err, pg.ErrNoRows) {
 			return nil, utils.ErrNoResult
 		}
-		return nil, err
 	}
 
-	return meetup, nil
+	return meetup, err
 }
 
 func NewMeetupRepo(DB *pg.DB) *MeetupRepo {

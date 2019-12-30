@@ -136,6 +136,13 @@ func (s *UserRepoSuite) TestUserRepo_GetByKey_id() {
 	//assert.Nil(s.T(), user.DeletedAt, "deleted_at should be nil")
 }
 
+func (s *UserRepoSuite) TestUserRepo_GetByKey_err_no_rows() {
+
+	_, err := s.Domain.DB.UserRepo.GetByKey("id", "1")
+
+	assert.Error(s.T(), err, "No results")
+}
+
 func (s *UserRepoSuite) TestUserRepo_Update_username() {
 	user := CreateTestUser(s, &models.User{})
 	user.Username = "updatedBob"

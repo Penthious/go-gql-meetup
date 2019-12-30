@@ -17,11 +17,7 @@ func (u *UserRepo) All() ([]*models.User, error) {
 
 	err := u.DB.Model(&users).Select()
 
-	if err != nil {
-		return nil, err
-	}
-
-	return users, nil
+	return users, err
 }
 
 func (u *UserRepo) GetByIDs(ids []string) ([]*models.User, error)  {
@@ -29,11 +25,7 @@ func (u *UserRepo) GetByIDs(ids []string) ([]*models.User, error)  {
 
 	err := u.DB.Model(&users).Where("id in (?)", pg.In(ids)).Select()
 
-	if err != nil {
-		return nil, err
-	}
-
-	return users, nil
+	return users, err
 }
 
 func (u *UserRepo) GetByKey(key, value string) (*models.User, error) {
@@ -45,30 +37,21 @@ func (u *UserRepo) GetByKey(key, value string) (*models.User, error) {
 		if errors.Is(err, pg.ErrNoRows) {
 			return nil, utils.ErrNoResult
 		}
-		return nil, err
 	}
 
-	return user, nil
+	return user, err
 }
 
 func (u *UserRepo) Create(user *models.User) error {
 	_, err := u.DB.Model(user).Returning("*").Insert()
 
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 func (u *UserRepo) Update(user *models.User) (*models.User, error) {
 	_, err := u.DB.Model(user).Where("id = ?", user.ID).Update()
 
-	if err != nil {
-		return nil, err
-	}
-
-	return user, nil
+	return user, err
 }
 
 func NewUserRepo(DB *pg.DB) *UserRepo {
