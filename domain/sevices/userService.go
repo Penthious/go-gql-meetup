@@ -18,17 +18,6 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func SetPassword(password string) (*string, error) {
-	passwordByte := []byte(password)
-	passwordHash, err := bcrypt.GenerateFromPassword(passwordByte, bcrypt.DefaultCost)
-
-	if err != nil {
-		return nil, err
-	}
-	password = string(passwordHash)
-
-	return &password, nil
-}
 
 func GenToken(userID string, d domain.Domain) (*JWTToken, error) {
 	jwtToken := jwt.New(jwt.GetSigningMethod("HS256"))

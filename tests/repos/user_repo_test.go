@@ -1,19 +1,16 @@
 package repos
 
 import (
-	_ "github.com/lib/pq"
-
 	"fmt"
 	"github.com/go-pg/pg/v9"
 	"github.com/khaiql/dbcleaner/engine"
+	_ "github.com/lib/pq"
 	"github.com/penthious/go-gql-meetup/database"
 	"github.com/penthious/go-gql-meetup/domain"
-	"github.com/penthious/go-gql-meetup/domain/sevices"
 	"github.com/penthious/go-gql-meetup/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"testing"
-
 )
 
 type UserRepoSuite struct {
@@ -177,8 +174,6 @@ func CreateTestUser(s *UserRepoSuite, user *models.User) *models.User{
 	if user.Username == "" {user.Username = "bob"}
 	if user.Email == "" {user.Email = "bob@bob.com"}
 	if user.Password == "" {user.Password = "password"}
-	passwordHash, _ := sevices.SetPassword(user.Password)
-	user.Password = *passwordHash
 	s.Domain.DB.UserRepo.Create(user)
 
 	return user

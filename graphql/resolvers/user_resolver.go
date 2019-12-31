@@ -30,22 +30,15 @@ func (m *mutationResolver) Register(ctx context.Context, input models.RegisterPa
 		return nil, utils.ErrUserWithEmailAlreadyExist
 	}
 
-	password, err := sevices.SetPassword(input.Password)
-
-	if err != nil {
-		return nil, err
-	}
-
 	user := &models.User{
 		Username: input.Username,
 		Email:    input.Email,
-		Password: *password,
+		Password: input.Password,
 	}
 
 	tx, _ := m.DB.DB.Begin()
 	defer tx.Commit()
-	err = m.DB.UserRepo.Create(user)
-
+	err := m.DB.UserRepo.Create(user)
 
 	authPointer := ctx.Value(middleware.ContextKey("userID")).(*string)
 	*authPointer = user.ID
