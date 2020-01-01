@@ -12,6 +12,7 @@ require (
 	github.com/go-sql-driver/mysql v1.4.1 // indirect
 	github.com/gorilla/websocket v1.4.1
 	github.com/hashicorp/golang-lru v0.5.3 // indirect
+	github.com/joho/godotenv v1.3.0
 	github.com/khaiql/dbcleaner v2.3.0+incompatible
 	github.com/lib/pq v1.3.0
 	github.com/mattn/go-sqlite3 v2.0.2+incompatible // indirect

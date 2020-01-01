@@ -1,0 +1,2 @@
+/usr/local/Cellar/go/1.13.3/libexec/bin/go test -json -covermode=atomic -coverpkg=../../../go-gql-meetup/... -coverprofile /Users/tleffew/Library/Caches/GoLand2019.3/coverage/go_gql_meetup$go_test_resolvers.out ./... #gosetup
+/usr/local/Cellar/go/1.13.3/libexec/bin/go test -json -covermode=atomic -coverpkg=../../../go-gql-meetup/... -coverprofile /Users/tleffew/Library/Caches/GoLand2019.3/coverage/go_gql_meetup$go_test_repos.out ./... #gosetup
